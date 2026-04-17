@@ -1,0 +1,156 @@
+# =========================
+# 🐍 PYTHON
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribución / empaquetado
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# =========================
+# 🧪 ENTORNOS VIRTUALES
+# =========================
+venv/
+env/
+ENV/
+venv-cmvida/
+
+# =========================
+# 🌐 DJANGO
+# =========================
+db.sqlite3
+db.sqlite3-journal
+
+# Archivos generados
+media/
+staticfiles/
+
+# Configuración local
+local_settings.py
+
+# =========================
+# 🔐 VARIABLES DE ENTORNO
+# =========================
+.env
+.env.*
+!.env.example
+*.env
+
+# =========================
+# 📊 ARCHIVOS DEL PROYECTO
+# =========================
+# Archivos subidos por usuarios
+uploads/
+
+# Excel / PDF (datos reales)
+*.xlsx
+*.xls
+*.pdf
+
+# =========================
+# 🌐 NODE / FRONTEND
+# =========================
+node_modules/
+**/node_modules/
+
+.next/
+out/
+dist/
+build/
+coverage/
+
+# Cache frontend
+.cache/
+.temp/
+.tmp/
+**/.cache/
+**/.temp/
+**/.tmp/
+
+# =========================
+# 🧾 LOGS
+# =========================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# =========================
+# 🧪 TEST / COVERAGE
+# =========================
+.coverage
+htmlcov/
+.tox/
+.pytest_cache/
+coverage/
+*.lcov
+
+# =========================
+# 💻 IDE / EDITORES
+# =========================
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+
+# Vim / Linux
+*.swp
+*.swo
+*~
+
+# =========================
+# 🖥️ SISTEMA OPERATIVO
+# =========================
+# Mac
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# =========================
+# 📦 PACKAGE MANAGERS
+# =========================
+.pnpm-store/
+.npm/
+.yarn/
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+.yarn/install-state.gz
+
+# =========================
+# 🔒 ARCHIVOS SENSIBLES
+# =========================
+*.key
+*.pem
+*.crt
+
+# =========================
+# 🐳 DOCKER (OPCIONAL)
+# =========================
+docker-compose.override.yml
+
+# =========================
+# 📦 OTROS
+# =========================
+*.tgz
+*.tar.gz
+*.zip
+
+# =========================
+# ⚙️ TYPESCRIPT
+# =========================
+*.tsbuildinfo
+
+# =========================
+# 📁 ARCHIVOS LOCALES
+# =========================
+*.local
