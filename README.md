@@ -65,9 +65,9 @@ Durante el desarrollo de este proyecto se trabajó en:
 
 Proyecto desarrollado por tres integrantes:
 
-- Integrante 1: [Nombre completo]
-- Integrante 2: [Nombre completo]
-- Integrante 3: [Nombre completo]
+- Integrante 1: Christian Cañar
+- Integrante 2: Roberto Rocha
+- Integrante 3: Hernan Varas
 
 ## Instalación
 
