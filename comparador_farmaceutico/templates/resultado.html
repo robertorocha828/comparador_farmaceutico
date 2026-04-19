@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados – Proceso {{ proceso.id }}</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f4f8;
+            min-height: 100vh;
+            padding: 2rem;
+            color: #1a2e44;
+        }
+
+        .header {
+            max-width: 1100px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .header-left h1 {
+            font-size: 1.35rem;
+            font-weight: 700;
+        }
+
+        .header-left p {
+            font-size: 0.82rem;
+            color: #6b7a8d;
+            margin-top: 0.2rem;
+        }
+
+        .btn-back {
+            padding: 0.5rem 1rem;
+            background: white;
+            border: 1.5px solid #d0d5dd;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #344054;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .btn-back:hover {
+            background: #f5f7fa;
+        }
+
+        /* Tarjetas de resumen */
+        .resumen-grid {
+            max-width: 1100px;
+            margin: 0 auto 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.1rem 1.25rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .stat-card .label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #8898aa;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 0.4rem;
+        }
+
+        .stat-card .value {
+            font-size: 1.75rem;
+            font-weight: 700;
+        }
+
+        .stat-ok .value {
+            color: #1a7a4a;
+        }
+
+        .stat-rev .value {
+            color: #b45309;
+        }
+
+        .stat-err .value {
+            color: #c0392b;
+        }
+
+        .stat-total .value {
+            color: #2d7dd2;
+        }
+
+        .stat-pct .value {
+            color: #6b21a8;
+        }
+
+        /* Tabla */
+        .table-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e8ecf0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .table-header h2 {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .count-badge {
+            background: #eef5ff;
+            color: #2d7dd2;
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+
+        thead th {
+            background: #f8fafc;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #6b7a8d;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            border-bottom: 1px solid #e8ecf0;
+        }
+
+        tbody td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #f0f4f8;
+            vertical-align: middle;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: #fafbff;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.25rem 0.65rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .badge-ok {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-rev {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .price {
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+        }
+
+        .diff-zero {
+            color: #6b7a8d;
+        }
+
+        .diff-pos {
+            color: #c0392b;
+            font-weight: 600;
+        }
+
+        .score-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .bar-bg {
+            flex: 1;
+            height: 6px;
+            background: #e8ecf0;
+            border-radius: 3px;
+            overflow: hidden;
+            max-width: 70px;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 3px;
+            background: #2d7dd2;
+        }
+
+        .score-num {
+            font-size: 0.78rem;
+            color: #6b7a8d;
+            min-width: 30px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #8898aa;
+        }
+
+        .empty-state svg {
+            margin: 0 auto 1rem;
+            display: block;
+        }
+
+        .empty-state h3 {
+            font-size: 1rem;
+            color: #344054;
+            margin-bottom: 0.3rem;
+        }
+
+        @media (max-width: 768px) {
+
+            thead th:nth-child(2),
+            tbody td:nth-child(2) {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="header-left">
+            <h1>Resultados de Conciliación</h1>
+            <p>{{ proceso.nombre }} &nbsp;·&nbsp; {{ proceso.fecha_creacion|date:"d/m/Y H:i" }}</p>
+        </div>
+        <a href="{% url 'subir_archivos' %}" class="btn-back">← Nueva conciliación</a>
+    </div>
+
+    {% if resumen %}
+    <div class="resumen-grid">
+        <div class="stat-card stat-total">
+            <div class="label">Total procesados</div>
+            <div class="value">{{ resumen.total_medicamentos }}</div>
+        </div>
+        <div class="stat-card stat-ok">
+            <div class="label">✅ Correctos</div>
+            <div class="value">{{ resumen.coincidencias }}</div>
+        </div>
+        <div class="stat-card stat-rev">
+            <div class="label">⚠️ Por revisar</div>
+            <div class="value">{{ resumen.por_revisar }}</div>
+        </div>
+        <div class="stat-card stat-err">
+            <div class="label">❌ Errores</div>
+            <div class="value">{{ resumen.errores }}</div>
+        </div>
+        <div class="stat-card stat-pct">
+            <div class="label">% Error</div>
+            <div class="value">{{ resumen.porcentaje_error|floatformat:1 }}%</div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="table-wrap">
+        <div class="table-header">
+            <h2>Detalle de conciliación</h2>
+            <span class="count-badge">{{ conciliaciones.count }} registros</span>
+        </div>
+
+        {% if conciliaciones %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Producto en factura</th>
+                    <th>Producto en inventario</th>
+                    <th>Cant.</th>
+                    <th>Precio maestro</th>
+                    <th>Precio factura</th>
+                    <th>Diferencia</th>
+                    <th>Similitud</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in conciliaciones %}
+                <tr>
+                    <td>{{ c.medicamento_factura }}</td>
+                    <td style="color:#6b7a8d;">{{ c.medicamento_excel }}</td>
+                    <td class="price">{{ c.cantidad }}</td>
+                    <td class="price">${{ c.precio_maestro }}</td>
+                    <td class="price">${{ c.precio_factura }}</td>
+                    <td class="price {% if c.diferencia > 0 %}diff-pos{% else %}diff-zero{% endif %}">
+                        {% if c.diferencia > 0 %}+{% endif %}${{ c.diferencia }}
+                    </td>
+                    <td>
+                        <div class="score-bar">
+                            <div class="bar-bg">
+                                <div class="bar-fill" style="width: {{ c.score_match }}%;"></div>
+                            </div>
+                            <span class="score-num">{{ c.score_match|floatformat:0 }}%</span>
+                        </div>
+                    </td>
+                    <td>
+                        {% if c.estado == 'OK' %}
+                        <span class="badge badge-ok">✓ OK</span>
+                        {% elif c.estado == 'REVISAR' %}
+                        <span class="badge badge-rev">⚠ Revisar</span>
+                        {% else %}
+                        <span class="badge badge-error">✗ Error</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% else %}
+        <div class="empty-state">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#d0d5dd" stroke-width="1.5">
+                <path d="M9 17H7A5 5 0 0 1 7 7h2" />
+                <path d="M15 7h2a5 5 0 0 1 0 10h-2" />
+                <line x1="8" y1="12" x2="16" y2="12" />
+            </svg>
+            <h3>Sin resultados de conciliación</h3>
+            <p>No se encontraron registros para este proceso.</p>
+        </div>
+        {% endif %}
+    </div>
+
+</body>
+
+</html>
