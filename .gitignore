@@ -4,6 +4,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.so
 
 # Distribución / empaquetado
 build/
@@ -18,6 +19,9 @@ venv/
 env/
 ENV/
 venv-cmvida/
+# Cubre otros nombres comunes de entornos
+.venv/
+.env/
 
 # =========================
 # 🌐 DJANGO
@@ -46,10 +50,11 @@ local_settings.py
 # Archivos subidos por usuarios
 uploads/
 
-# Excel / PDF (datos reales)
+# Excel / PDF (datos reales/sensibles)
 *.xlsx
 *.xls
 *.pdf
+*.csv
 
 # =========================
 # 🌐 NODE / FRONTEND
@@ -59,8 +64,7 @@ node_modules/
 
 .next/
 out/
-dist/
-build/
+# dist/ y build/ ya están arriba en Python, pero se mantienen por claridad
 coverage/
 
 # Cache frontend
@@ -88,7 +92,6 @@ pnpm-debug.log*
 htmlcov/
 .tox/
 .pytest_cache/
-coverage/
 *.lcov
 
 # =========================
@@ -108,10 +111,7 @@ coverage/
 # =========================
 # 🖥️ SISTEMA OPERATIVO
 # =========================
-# Mac
 .DS_Store
-
-# Windows
 Thumbs.db
 desktop.ini
 
@@ -134,7 +134,7 @@ desktop.ini
 *.crt
 
 # =========================
-# 🐳 DOCKER (OPCIONAL)
+# 🐳 DOCKER
 # =========================
 docker-compose.override.yml
 
@@ -144,13 +144,17 @@ docker-compose.override.yml
 *.tgz
 *.tar.gz
 *.zip
-
-# =========================
-# ⚙️ TYPESCRIPT
-# =========================
 *.tsbuildinfo
+*.local
 
 # =========================
-# 📁 ARCHIVOS LOCALES
+# 📂 REGLA PARA TEMPLATES (IMPORTANTE)
 # =========================
-*.local
+# Forzamos a Git a que NO ignore la carpeta de templates 
+# incluso si cae dentro de alguna regla de "build" o "dist" anterior.
+!**/templates/
+!**/templates/**
+
+# Si usas archivos de ejemplo para CMVida que QUIERES subir, 
+# puedes descomentar la siguiente línea:
+# !ejemplo_plantilla.xlsx
